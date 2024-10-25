@@ -6,13 +6,17 @@ import NewAccountsTable from "@/app/_components/NewAccountsTable";
 const Page = () => {
   return (
     <div className="flex">
-      <Sidebar />
+      <div className="fixed">
+         <Sidebar/>
+      </div>
+     <main className="ml-64 flex-1 p-6">
       <div className="flex-1 p-5">
         <Header name="Adamu Tosin" email="adamu.tosin@gmail.com" />
         <div className="mb-6"></div>
         <OverviewCards />
         <NewAccountsTable />
       </div>
+    </main>
     </div>
   );
 };
