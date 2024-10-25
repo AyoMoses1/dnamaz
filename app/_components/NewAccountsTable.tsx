@@ -126,7 +126,7 @@ const NewAccountsTable = () => {
                   </span>
                 </td>
                 <td className="py-4 px-4">
-                  <button className="text-gray-600 hover:text-gray-900">
+                  <button className="text-green-800 hover:text-gray-900">
                     <PenSquare size={20} />
                   </button>
                 </td>
