@@ -8,7 +8,8 @@ const Page = () => {
     <div className="flex">
       <Sidebar />
       <div className="flex-1 p-5">
-        <Header name="Adamu" email="adamu.tosin@gmail.com" />
+        <Header name="Adamu Tosin" email="adamu.tosin@gmail.com" />
+        <div className="mb-6"></div>
         <OverviewCards />
         <NewAccountsTable />
       </div>
