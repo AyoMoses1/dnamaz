@@ -96,12 +96,12 @@ const NewAccountsTable = () => {
         <table className="w-full">
           <thead>
             <tr className="bg-gray-50 text-left">
-              <th className="py-3 px-4 text-black">NAME</th>
-              <th className="py-3 px-4 text-black">ABOUT</th>
-              <th className="py-3 px-4 text-black">ACCOUNT</th>
-              <th className="py-3 px-4 text-black">DATE</th>
-              <th className="py-3 px-4 text-black">REQUEST</th>
-              <th className="py-3 px-4 text-black">ACTION</th>
+              <th className="py-3 px-4 text-black text-sm">NAME</th>
+              <th className="py-3 px-4 text-black text-sm">ABOUT</th>
+              <th className="py-3 px-4 text-black text-sm">ACCOUNT</th>
+              <th className="py-3 px-4 text-black text-sm">DATE</th>
+              <th className="py-3 px-4 text-black text-sm">REQUEST</th>
+              <th className="py-3 px-4 text-black text-sm">ACTION</th>
             </tr>
           </thead>
           <tbody>
@@ -110,7 +110,7 @@ const NewAccountsTable = () => {
                 <td className="py-4 px-4 text-gray-900">{account.name}</td>
                 <td className="py-4 px-4">
                   <div className="text-gray-900">{account.about}</div>
-                  <div className="text-gray-400 text-sm">{account.address}</div>
+                  <div className="text-gray-400">{account.address}</div>
                 </td>
                 <td className="py-4 px-4">
                   <span className={`px-3 py-1 rounded-full text-sm ${
