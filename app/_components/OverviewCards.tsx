@@ -1,43 +1,85 @@
 import { FC } from "react";
-import { FaUsers, FaWallet, FaUniversity, FaChartLine } from "react-icons/fa";
-import { RxEnvelopeClosed } from "react-icons/rx";
+import { TrendingUp, TrendingDown, Users, Wallet, Building2, LayoutGrid } from "lucide-react";
 
 interface CardProps {
   title: string;
   value: string;
   change: string;
   isPositive: boolean;
-  backgroundColor: string;
-  icon: JSX.Element;
-  iconBgColor: string;
+  variant: 'green' | 'mint' | 'white';
+  icon: 'users' | 'wallet' | 'investment' | 'projects';
 }
 
-const Card: FC<CardProps> = ({ title, value, change, isPositive, backgroundColor, icon, iconBgColor }) => {
+const Card: FC<CardProps> = ({ title, value, change, isPositive, variant, icon }) => {
+  const getVariantStyles = () => {
+    switch (variant) {
+      case 'green':
+        return {
+          wrapper: 'bg-green-800',
+          text: 'text-white',
+          title: 'text-white/80',
+          icon: 'bg-green-700/50'
+        };
+      case 'mint':
+        return {
+          wrapper: 'bg-green-50',
+          text: 'text-green-950',
+          title: 'text-green-950/70',
+          icon: 'bg-green-500/20'
+        };
+      default:
+        return {
+          wrapper: 'bg-white',
+          text: 'text-gray-950',
+          title: 'text-gray-950/70',
+          icon: icon === 'investment' ? 'bg-yellow-400' : 'bg-gray-100'
+        };
+    }
+  };
+
+  const getIcon = () => {
+    switch (icon) {
+      case 'users':
+        return <Users className={`h-5 w-5 ${variant === 'green' ? 'text-white' : 'text-green-800'}`} />;
+      case 'wallet':
+        return <Wallet className={`h-5 w-5 ${variant === 'green' ? 'text-white' : 'text-green-800'}`} />;
+      case 'investment':
+        return <LayoutGrid className="h-5 w-5 text-white" />;
+      case 'projects':
+        return <Building2 className="h-5 w-5 text-gray-600" />;
+    }
+  };
+
+  const styles = getVariantStyles();
+
   return (
-    <div className={`p-5 rounded-lg shadow-md ${backgroundColor}`}>
-  
+    <div className={`${styles.wrapper} rounded-2xl p-6 space-y-4`}>
       <div className="flex justify-between items-center">
-        <p className={`${backgroundColor === 'bg-green-800' ? 'text-white' : 'text-black'} text-lg font-medium`}>
+        <span className={`${styles.title} text-lg font-medium`}>
           {title}
-        </p>
-        <div className={`p-3 rounded-full ${iconBgColor}`}>
-          {icon}
+        </span>
+        <div className={`${styles.icon} p-3 rounded-full`}>
+          {getIcon()}
         </div>
       </div>
-  
-      <h2 className={`${backgroundColor === 'bg-green-800' ? 'text-white' : 'text-black'} text-3xl font-bold mt-3`}>
-        {value}
-      </h2>
-     
-      <div className="flex items-center mt-1">
-        {isPositive ? (
-          <FaChartLine className="text-green-500 mr-2" />  
-        ) : (
-          <FaChartLine className="text-red-500 mr-2 transform rotate-180" />  
-        )}
-        <p className={`${isPositive ? "text-green-500" : "text-red-500"} text-sm`}>
-          {change}
-        </p>
+
+      <div className="space-y-2">
+        <h2 className={`${styles.text} text-3xl font-bold`}>
+          {value}
+        </h2>
+        
+        <div className="flex items-center gap-2">
+          <div className={`border ${isPositive ? 'border-green-500' : 'border-red-500'} rounded p-0.5`}>
+            {isPositive ? (
+              <TrendingUp className="h-3 w-3 text-green-500" />
+            ) : (
+              <TrendingDown className="h-3 w-3 text-red-500" />
+            )}
+          </div>
+          <span className={`text-sm ${isPositive ? 'text-green-500' : 'text-red-500'}`}>
+            {change}
+          </span>
+        </div>
       </div>
     </div>
   );
@@ -45,42 +87,38 @@ const Card: FC<CardProps> = ({ title, value, change, isPositive, backgroundColor
 
 const OverviewCards: FC = () => {
   return (
-    <div className="grid grid-cols-4 gap-5">
+    <div className="grid grid-cols-4 gap-4">
       <Card
         title="Active Customers"
         value="30,000"
         change="+15% more from last month"
         isPositive={true}
-        backgroundColor="bg-green-800"
-        icon={<FaUsers className="text-white text-xl" />}
-        iconBgColor="bg-green-300"
+        variant="green"
+        icon="users"
       />
       <Card
         title="Wallets Total"
         value="₦623K"
         change="-24% less from last month"
         isPositive={false}
-        backgroundColor="bg-green-100"
-        icon={<FaWallet className="text-green-800 text-xl" />}
-        iconBgColor="bg-green-300"
+        variant="mint"
+        icon="wallet"
       />
       <Card
         title="Amount Invested"
         value="₦923K"
         change="+35% more from last month"
         isPositive={true}
-        backgroundColor="bg-white"
-        icon={<RxEnvelopeClosed className="text-white text-xl" />}
-        iconBgColor="bg-yellow-400"
+        variant="white"
+        icon="investment"
       />
       <Card
         title="Funded Projects"
         value="₦0"
         change="-37% less from last month"
         isPositive={false}
-        backgroundColor="bg-white"
-        icon={<FaUniversity className="text-gray-600 text-xl" />}
-        iconBgColor="bg-gray-300"
+        variant="white"
+        icon="projects"
       />
     </div>
   );
