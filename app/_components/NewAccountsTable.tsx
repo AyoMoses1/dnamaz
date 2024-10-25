@@ -96,12 +96,12 @@ const NewAccountsTable = () => {
         <table className="w-full">
           <thead>
             <tr className="bg-gray-50 text-left">
-              <th className="py-3 px-4 text-gray-600 font-semibold">NAME</th>
-              <th className="py-3 px-4 text-gray-600 font-semibold">ABOUT</th>
-              <th className="py-3 px-4 text-gray-600 font-semibold">ACCOUNT</th>
-              <th className="py-3 px-4 text-gray-600 font-semibold">DATE</th>
-              <th className="py-3 px-4 text-gray-600 font-semibold">REQUEST</th>
-              <th className="py-3 px-4 text-gray-600 font-semibold">ACTION</th>
+              <th className="py-3 px-4 text-black">NAME</th>
+              <th className="py-3 px-4 text-black">ABOUT</th>
+              <th className="py-3 px-4 text-black">ACCOUNT</th>
+              <th className="py-3 px-4 text-black">DATE</th>
+              <th className="py-3 px-4 text-black">REQUEST</th>
+              <th className="py-3 px-4 text-black">ACTION</th>
             </tr>
           </thead>
           <tbody>
