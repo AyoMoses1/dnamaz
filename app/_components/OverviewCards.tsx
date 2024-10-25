@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { TrendingUp, TrendingDown, Users, Wallet, Building2, LayoutGrid } from "lucide-react";
+import { TrendingUp, TrendingDown, Users, Wallet, Landmark, SquareActivity } from "lucide-react";
 
 interface CardProps {
   title: string;
@@ -18,21 +18,24 @@ const Card: FC<CardProps> = ({ title, value, change, isPositive, variant, icon }
           wrapper: 'bg-green-800',
           text: 'text-white',
           title: 'text-white/80',
-          icon: 'bg-green-700/50'
+          icon: 'bg-green-700/50',
+          changeText: 'text-white'
         };
       case 'mint':
         return {
           wrapper: 'bg-green-50',
           text: 'text-green-950',
           title: 'text-green-950/70',
-          icon: 'bg-green-500/20'
+          icon: 'bg-green-600/40',
+          changeText: 'text-green-950'
         };
       default:
         return {
           wrapper: 'bg-white',
           text: 'text-gray-950',
           title: 'text-gray-950/70',
-          icon: icon === 'investment' ? 'bg-yellow-400' : 'bg-gray-100'
+          icon: icon === 'investment' ? 'bg-yellow-400' : 'bg-gray-100',
+          changeText: 'text-gray-950'
         };
     }
   };
@@ -42,18 +45,18 @@ const Card: FC<CardProps> = ({ title, value, change, isPositive, variant, icon }
       case 'users':
         return <Users className={`h-5 w-5 ${variant === 'green' ? 'text-white' : 'text-green-800'}`} />;
       case 'wallet':
-        return <Wallet className={`h-5 w-5 ${variant === 'green' ? 'text-white' : 'text-green-800'}`} />;
+        return <Wallet className={`h-5 w-5 ${variant === 'green' ? 'text-white' : 'text-white'}`} />;
       case 'investment':
-        return <LayoutGrid className="h-5 w-5 text-white" />;
+        return <SquareActivity className="h-5 w-5 text-white" />;
       case 'projects':
-        return <Building2 className="h-5 w-5 text-gray-600" />;
+        return <Landmark className="h-5 w-5 text-gray-600" />;
     }
   };
 
   const styles = getVariantStyles();
 
   return (
-    <div className={`${styles.wrapper} rounded-2xl p-6 space-y-4`}>
+    <div className={`${styles.wrapper} rounded-2xl border p-6 space-y-4`}>
       <div className="flex justify-between items-center">
         <span className={`${styles.title} text-lg font-medium`}>
           {title}
@@ -76,8 +79,13 @@ const Card: FC<CardProps> = ({ title, value, change, isPositive, variant, icon }
               <TrendingDown className="h-3 w-3 text-red-500" />
             )}
           </div>
-          <span className={`text-sm ${isPositive ? 'text-green-500' : 'text-red-500'}`}>
-            {change}
+          <span className="text-sm">
+            <span className={isPositive ? 'text-green-500' : 'text-red-500'}>
+              {isPositive ? `+${change}%` : `-${change}%`}
+            </span>
+            <span className={styles.changeText}>
+              {isPositive ? ' more from last month' : ' less from last month'}
+            </span>
           </span>
         </div>
       </div>
@@ -91,7 +99,7 @@ const OverviewCards: FC = () => {
       <Card
         title="Active Customers"
         value="30,000"
-        change="+15% more from last month"
+        change="15"
         isPositive={true}
         variant="green"
         icon="users"
@@ -99,7 +107,7 @@ const OverviewCards: FC = () => {
       <Card
         title="Wallets Total"
         value="₦623K"
-        change="-24% less from last month"
+        change="24"
         isPositive={false}
         variant="mint"
         icon="wallet"
@@ -107,7 +115,7 @@ const OverviewCards: FC = () => {
       <Card
         title="Amount Invested"
         value="₦923K"
-        change="+35% more from last month"
+        change="35"
         isPositive={true}
         variant="white"
         icon="investment"
@@ -115,7 +123,7 @@ const OverviewCards: FC = () => {
       <Card
         title="Funded Projects"
         value="₦0"
-        change="-37% less from last month"
+        change="37"
         isPositive={false}
         variant="white"
         icon="projects"
