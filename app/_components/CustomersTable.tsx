@@ -1,3 +1,4 @@
+import { ChevronLeft, ChevronRight, Edit2 } from "lucide-react";
 import { FC } from "react";
 import { FaSearch, FaEdit } from "react-icons/fa";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
@@ -96,93 +97,83 @@ const CustomersTable: FC = () => {
   ];
 
   return (
-    <div className="mt-8">
-      <div className="flex justify-between items-center mb-6">
-        <div>
-          <h2 className="text-2xl font-bold text-gray-700">Customers Table</h2>
-          <p className="text-gray-500">Here's an overview of your client base!</p>
-        </div>
-      </div>
-      
-      <div className="flex justify-between items-center mb-6">
-        <div>
-          <h3 className="font-semibold text-gray-700">All Accounts</h3>
-          <p className="text-sm text-gray-500">Updated 48 mins ago</p>
-        </div>
+      <div className="border border-gray-200 rounded-lg mt-12">
+      <div className="p-6">
+        <div className="flex justify-between items-center mb-6">
+          <div>
+            <h2 className="text-xl text-gray-900">All Accounts</h2>
+            <p className="text-sm text-gray-500">Updated 48 mins ago</p>
+          </div>
         <div className="relative">
           <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-          <input
-            type="text"
-            placeholder="Search"
-            className="pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+         <input
+          type="text"
+          placeholder="Search"
+          className="pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
+         </div>
         </div>
-      </div>
 
-      <div className="overflow-x-auto">
-        <table className="w-full">
-          <thead>
-            <tr className="bg-gray-50">
-              <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">NAME</th>
-              <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">ABOUT</th>
-              <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">ACCOUNT</th>
-              <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">DATE</th>
-              <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">INVESTMENTS</th>
-              <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">ACTION</th>
-            </tr>
-          </thead>
-          <tbody>
-            {customers.map((customer, index) => (
-              <tr 
-                key={index} 
-                className={`border-b ${
-                  index === customers.length - 1 ? 'border-b-0' : ''
-                }`}
-              >
-                <td className="px-4 py-4">
-                  <div>
-                    <p className="font-medium text-gray-700">{customer.name}</p>
-                    <p className="text-sm text-gray-500">ID: {customer.id}</p>
-                  </div>
-                </td>
-                <td className="px-4 py-4">
-                  <div>
-                    <p className="font-medium text-gray-700">{customer.about.role}</p>
-                    <p className="text-sm text-gray-500">{customer.about.address}</p>
-                  </div>
-                </td>
-                <td className="px-4 py-4">
-                  <span className={`px-3 py-1 rounded-full text-sm ${
-                    customer.accountType === 'Individual' 
-                      ? 'bg-green-100 text-green-800' 
-                      : 'bg-yellow-100 text-yellow-800'
-                  }`}>
-                    {customer.accountType}
-                  </span>
-                </td>
-                <td className="px-4 py-4 text-sm text-gray-600">{customer.date}</td>
-                <td className="px-4 py-4 text-sm text-gray-600">{customer.investments}</td>
-                <td className="px-4 py-4">
-                  <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
-                    <FaEdit className="text-gray-600" />
-                  </button>
-                </td>
+         <div className="overflow-x-auto">
+          <table className="w-full">
+            <thead className="bg-gray-50">
+              <tr>
+                <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">NAME</th>
+                <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">ABOUT</th>
+                <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">ACCOUNT</th>
+                <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">DATE</th>
+                <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">INVESTMENTS</th>
+                <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">ACTION</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+            </thead>
+            <tbody>
+              {customers.map((customer, index) => (
+                <tr key={index} className="border-b">
+                  <td className="px-4 py-4">
+                    <div>
+                      <p className="font-medium text-gray-500 text-sm">{customer.name}</p>
+                      <p className="text-sm text-gray-500">ID: {customer.id}</p>
+                    </div>
+                  </td>
+                  <td className="px-4 py-4">
+                    <div>
+                      <p className="font-medium text-sm text-gray-500">{customer.about.role}</p>
+                      <p className="text-sm text-gray-500">{customer.about.address}</p>
+                    </div>
+                  </td>
+                  <td className="px-4 py-4">
+                    <span className={`px-3 py-1 rounded-full text-sm ${
+                      customer.accountType === 'Individual' 
+                        ? 'bg-green-100 text-green-800' 
+                        : 'bg-yellow-100 text-yellow-800'
+                    }`}>
+                      {customer.accountType}
+                    </span>
+                  </td>
+                  <td className="px-4 py-4 text-sm text-gray-500">{customer.date}</td>
+                  <td className="px-4 py-4 text-sm text-gray-500">{customer.investments}</td>
+                  <td className="px-4 py-4">
+                    <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
+                      <FaEdit className="w-4 h-4 text-green-900" />
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
 
-      <div className="flex justify-between items-center mt-6">
-        <button className="flex items-center gap-1 px-4 py-2 text-sm text-gray-600 hover:bg-gray-100 rounded-lg">
-          <IoIosArrowBack className="text-sm" />
-          Prev
-        </button>
-        <span className="text-sm text-gray-600">10 of 20</span>
-        <button className="flex items-center gap-1 px-4 py-2 text-sm text-gray-600 hover:bg-gray-100 rounded-lg">
-          Next
-          <IoIosArrowForward className="text-sm" />
-        </button>
+        <div className="flex justify-between items-center mt-4">
+          <button className="flex items-center gap-1 px-4 py-2 text-sm text-gray-500 hover:bg-gray-100 rounded-lg transition-colors">
+            <ChevronLeft className="w-4 h-4" />
+            Prev
+          </button>
+          <span className="text-sm text-gray-500">10 of 20</span>
+          <button className="flex items-center gap-1 px-4 py-2 text-sm text-gray-500 hover:bg-gray-100 rounded-lg transition-colors">
+            Next
+            <ChevronRight className="w-4 h-4" />
+          </button>
+        </div>
       </div>
     </div>
   );
