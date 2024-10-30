@@ -60,10 +60,9 @@ const accountsData = [
 ];
 
 const NewAccountsTable = () => {
-
   return (
-    <div className="mt-12 pt-8 border-t border-gray-200">
     <div className="bg-white rounded-lg mt-0">
+      <hr className="border-t border-gray-200 mt-8" /> 
       <div className="px-6 pt-6">
         <div className="flex justify-between items-center mb-8">
           <div>
@@ -127,7 +126,6 @@ const NewAccountsTable = () => {
         </div>
       </div>
     </div>
-  </div>
   );
 };
 
