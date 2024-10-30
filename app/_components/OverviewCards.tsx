@@ -15,7 +15,7 @@ const Card: FC<CardProps> = ({ title, value, change, isPositive, variant, icon }
     switch (variant) {
       case 'green':
         return {
-          wrapper: 'bg-green-800',
+          wrapper: 'bg-green-800 border-transparent',
           text: 'text-white',
           title: 'text-white/80',
           icon: 'bg-green-700/50',
@@ -23,7 +23,7 @@ const Card: FC<CardProps> = ({ title, value, change, isPositive, variant, icon }
         };
       case 'mint':
         return {
-          wrapper: 'bg-green-50',
+          wrapper: 'bg-green-50 border-green-800',
           text: 'text-green-950',
           title: 'text-green-950/70',
           icon: 'bg-green-600/40',
@@ -31,7 +31,7 @@ const Card: FC<CardProps> = ({ title, value, change, isPositive, variant, icon }
         };
       default:
         return {
-          wrapper: 'bg-white',
+          wrapper: 'bg-white border-gray-200',
           text: 'text-gray-950',
           title: 'text-gray-950/70',
           icon: icon === 'investment' ? 'bg-yellow-400' : 'bg-gray-100',
