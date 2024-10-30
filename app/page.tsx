@@ -11,7 +11,7 @@ const Page = () => {
       </div>
      <main className="ml-64 flex-1 p-6">
       <div className="flex-1 p-5">
-        <Header name="Adamu Tosin" email="adamu.tosin@gmail.com" />
+        <Header name="Hello, Adamu Tosin" title="business!" description="Here’s an overview of your business" email="adamu.tosin@gmail.com" />
         <div className="mb-6"></div>
         <OverviewCards />
         <NewAccountsTable />
