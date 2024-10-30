@@ -14,7 +14,7 @@ const Header: FC<HeaderProps> = ({ name, email, description }) => {
   return (
     <header className="pt-5 flex justify-between items-center">
       <div>
-        <h1 className="text-gray-700 text-2xl font-bold">Hello, {name}!</h1>
+        <h1 className="text-gray-700 text-2xl font-bold">{name}!</h1>
         <p className="text-gray-500">{description}!</p> 
       </div>
       <div className="flex items-center space-x-5">
