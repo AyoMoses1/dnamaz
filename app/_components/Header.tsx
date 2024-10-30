@@ -4,16 +4,18 @@ import { FaBell } from "react-icons/fa";
 import rita from "@/public/Rita.jpg";
 
 interface HeaderProps {
-  name: string;
+  name?: string;
   email: string;
+  title?: string;
+  description?: string;
 }
 
-const Header: FC<HeaderProps> = ({ name, email }) => {
+const Header: FC<HeaderProps> = ({ name, email, description }) => {
   return (
     <header className="pt-5 flex justify-between items-center">
       <div>
         <h1 className="text-gray-700 text-2xl font-bold">Hello, {name}!</h1>
-        <p className="text-gray-500">Here’s an overview of your business!</p>
+        <p className="text-gray-500">{description}!</p> 
       </div>
       <div className="flex items-center space-x-5">
         <div className="relative">
