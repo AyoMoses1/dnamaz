@@ -2,7 +2,7 @@ import CustomersTable from "@/app/_components/CustomersTable";
 import Header from "@/app/_components/Header";
 import Sidebar from "@/app/_components/Sidebar";
 
-export default function Home() {
+const Page = () => {
   return (
     <div className="flex">
       <div className="fixed">
@@ -12,7 +12,7 @@ export default function Home() {
       <div className="flex-1 p-5">
         <Header 
           name="Customers" 
-          description="Here's an overview of your client base!" 
+          description="Here's an overview of your client base" 
           email="adamu.tosin@gmail.com" />
         <div className="mb-6"></div>
         <CustomersTable />
@@ -21,3 +21,5 @@ export default function Home() {
     </div>
   );
 }
+
+export default Page;
