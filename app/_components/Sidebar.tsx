@@ -7,7 +7,7 @@ import dlogo from "@/public/dlogo.png";
 const navLinks = [
   {
     name: "Business Overview",
-    href: "/",
+    href: "/dashboard",
     icon: Home,
   },
   {
