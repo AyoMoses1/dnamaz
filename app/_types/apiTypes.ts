@@ -16,3 +16,19 @@ export interface AdminLoginResponse {
     is_admin: boolean;
   };
 }
+
+export interface NewRequest {
+  data: {
+    userId: number;
+    email: string;
+    name: string;
+    userType: "cooperate" | "individual";
+    createdAt: string;
+    activationStatus: string;
+    natureOfBusiness?: string; 
+    primaryBusinessAddress?: string; 
+    occupation?: string; 
+    address?: string; 
+  }[];
+  message: string;
+}
