@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { FaUser, FaLock } from 'react-icons/fa';
 import { adminLogin } from '@/app/_lib/Api/endpoints/admin';
-import { AdminLoginRequest, AdminLoginResponse } from '@/app/_types/apiTypes';
+import { AdminLoginRequest } from '@/app/_types/apiTypes';
 
 const LoginForm = () => {
   const [username, setUsername] = useState("");
@@ -20,22 +20,21 @@ const LoginForm = () => {
     const loginData: AdminLoginRequest = { username, password };
 
     try {
-      const response: AdminLoginResponse = await adminLogin(loginData);
-      console.log('Login successful:', response);
-      if (response.success) {
+      const response = await adminLogin(loginData);
+      console.log('Full response:', response);
+
+      // Check for a valid token
+      if (response?.token) {
         router.push('/dashboard');
       } else {
-        setError("Login failed");
+        setError("Login failed: Missing token in response");
       }
-    } catch (err: unknown) {
-  if (err instanceof Error) {
-    setError(err.message);
-    console.error('Login error:', err);
-  } else {
-    // Handle unexpected error types
-    setError('An unexpected error occurred');
-    console.error('Unexpected error type:', err);
-  }
+    } catch (err) {
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError('An unexpected error occurred');
+      }
     } finally {
       setLoading(false);
     }
@@ -46,12 +45,12 @@ const LoginForm = () => {
       <div className="relative">
         <FaUser className="absolute left-3 top-5 text-black" />
         <input
-          type="email"
-          id="email"
-          name="email"
+          type="text"  
+          id="username"
+          name="username"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
-          className="w-full bg-gray-50 border border-gray-300 rounded-md pl-10 pr-4 py-3 focus:outline-none focus:ring-2 focus:ring-green-500 placeholder-gray-400"
+          className="w-full text-black border border-gray-300 rounded-md pl-10 pr-4 py-3 focus:outline-none focus:ring-2 focus:ring-green-500 placeholder-gray-400"
           placeholder="Username"
         />
       </div>
@@ -63,7 +62,7 @@ const LoginForm = () => {
           name="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="w-full bg-gray-50 border border-gray-300 rounded-md pl-10 pr-4 py-3 focus:outline-none focus:ring-2 focus:ring-green-500 placeholder-gray-400"
+          className="w-full text-black border border-gray-300 rounded-md pl-10 pr-4 py-3 focus:outline-none focus:ring-2 focus:ring-green-500 placeholder-gray-400"
           placeholder="Password"
         />
       </div>
