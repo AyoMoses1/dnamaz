@@ -36,10 +36,11 @@ const Sidebar = () => {
             <Image
               src={dlogo}
               alt="D'Namaz Capital Limited"
-              layout="fill"
+              fill
               quality={80}
-              objectFit="contain"
+              // objectFit="contain"
               priority
+              className="object-contain"
             />
           </div>
         </div>
