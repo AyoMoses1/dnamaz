@@ -9,8 +9,8 @@ const axiosGuest = axios.create({
   },
 });
 
-export const guestGet = (url: string) =>
-  axiosGuest.get(url).then((res) => res.data);
+export const guestGet = <TQueryParams,>(url: string, queryParams?: TQueryParams) =>
+  axiosGuest.get(url, {params: queryParams}).then((res) => res.data);
 
 export const guestPost = (url: string, data: any) =>
   axiosGuest.post(url, data).then((res) => res.data);
