@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { PenSquare } from 'lucide-react';
 import { newCustomerRequest } from '../_lib/Api/endpoints/newCustomers';
 import { NewRequest } from '../_types/apiTypes';
+import Spinner from './Spinner';
 
 const NewAccountsTable = () => {
   const { data, isLoading, isError, error } = useQuery<NewRequest>({
@@ -10,7 +11,13 @@ const NewAccountsTable = () => {
     queryFn: newCustomerRequest,
   });
 
-  if (isLoading) return <div>Loading...</div>;
+   if (isLoading) return (
+    <>
+      <Spinner />
+      <div>Loading...</div>
+    </>
+  );
+  
   if (isError) return <div>Error: {error?.message || 'An error occurred'}</div>;
 
   const accounts = data?.data || [];
