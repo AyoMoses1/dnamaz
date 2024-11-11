@@ -1,5 +1,5 @@
 import { ADMIN_CUSTOMER_ENDPOINT } from ".."; 
-import { CustomerResponse, CustomerError } from "@/app/_types/apiTypes";
+import { CustomerResponse } from "@/app/_types/apiTypes";
 import { handleAxiosError } from "@/app/utils/errorHandler"; 
 import { guestGet } from "../axiosGuest";
 
