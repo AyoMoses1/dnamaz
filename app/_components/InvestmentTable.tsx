@@ -28,7 +28,7 @@ const InvestmentTable = ({ investments }: { investments: Investment[] }) => (
             </td>
             <td className="py-4 px-4 text-sm text-black">₦{investment.amount.toLocaleString()}</td>
             <td className="py-4 px-4">
-              <span className={`px-3 py-1 rounded-full text-xs ${
+              <span className={`px-3 py-1 rounded-md text-xs ${
                 investment.status === 'Done' 
                   ? 'bg-green-100 text-green-800' 
                   : 'bg-orange-100 text-orange-800'
