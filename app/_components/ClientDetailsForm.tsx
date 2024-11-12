@@ -6,15 +6,12 @@ const ClientDetailsForm: React.FC = () => {
     <div className="mt-4 border rounded-lg shadow-sm">
       <div className="rounded-t-lg p-4 flex justify-between items-center">
         <div className="flex items-center gap-2">
+          <div className="text-lg text-black font-semibold">BVN Validated</div>
           <BadgeCheck className="w-5 h-5 text-green-600" />
-          <div>
-            <h3 className="text-lg font-medium text-black">BVN Validated</h3> 
-            <p className="text-sm text-gray-500">Client Details</p>
-          </div>
         </div>
-        <div className="flex gap-2">
-          <button className="px-4 py-2 text-sm text-red-600 bg-red-100 rounded-md">Reject</button>
-          <button className="px-4 py-2 text-sm text-green-600 bg-green-100 rounded-md">Accept</button>
+        <div className="flex gap-3">
+          <button className="px-4 py-1.5 text-sm text-red-600 bg-red-100 rounded-md">Reject</button>
+          <button className="px-4 py-1.5 text-sm text-green-600 bg-green-100 rounded-md">Accept</button>
         </div>
       </div>
       <div className="px-4 py-3 flex items-center justify-between gap-4">
