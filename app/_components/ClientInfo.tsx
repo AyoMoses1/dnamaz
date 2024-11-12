@@ -1,5 +1,5 @@
 import React from 'react';
-import { Copy, Ellipsis, File, MoreVertical, User } from 'lucide-react'; 
+import { Copy, Ellipsis, File, User } from 'lucide-react'; 
 import avatar from "@/public/avatar.png";
 import Image from 'next/image';
 
