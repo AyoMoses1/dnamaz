@@ -73,7 +73,7 @@ const NewAccountsTable = () => {
             <h2 className="text-2xl font-semibold text-gray-900">New Account Request</h2>
             <p className="text-sm text-gray-500 mt-1">Updated 48 mins ago</p>
           </div>
-          <div className="bg-gray-100 text-black p-1 rounded-lg flex gap-1">
+          <div className="bg-gray-100 text-black p-1 rounded-md flex gap-1">
             <button 
               className={`px-4 py-2 rounded-md transition-colors ${activeFilter === 'individual' ? 'bg-white' : 'hover:bg-white'}`}
               onClick={() => setActiveFilter('individual')}
