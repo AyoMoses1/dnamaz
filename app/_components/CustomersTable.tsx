@@ -162,7 +162,10 @@ const CustomersTable: FC = () => {
                     <td className="px-4 py-4 text-sm text-gray-500">{new Date(customer.createdAt).toLocaleDateString()}</td>
                     <td className="px-4 py-4 text-sm text-gray-500">{customer.investments}</td>
                     <td className="px-4 py-4">
-                      <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
+                      <button 
+                      className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                      onClick={() => router.push(`/customers/${customer.userId}`)}
+                      >
                         <FaEdit className="w-4 h-4 text-green-900" />
                       </button>
                     </td>
