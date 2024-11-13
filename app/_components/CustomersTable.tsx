@@ -151,7 +151,7 @@ const CustomersTable: FC = () => {
                       </div>
                     </td>
                     <td className="px-4 py-4">
-                      <span className={`px-3 py-1 rounded-full text-sm ${
+                      <span className={`px-3 py-1 rounded-md text-sm ${
                         customer.userType?.toLowerCase() === 'individual' 
                           ? 'bg-green-100 text-green-800' 
                           : 'bg-yellow-100 text-yellow-800'
