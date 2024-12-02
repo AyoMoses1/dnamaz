@@ -127,3 +127,19 @@ export interface ClientResponse {
   };
   message: string;
 }
+
+export interface ApiResponse {
+  token: {
+    type: string;
+    token: string;
+  };
+  user: {
+    id: number;
+    email: string;
+    is_staff: boolean;
+    is_admin: boolean;
+  };
+}
+
+export type RoleType = "ADMIN" | "STAFF" | "USER";
+
