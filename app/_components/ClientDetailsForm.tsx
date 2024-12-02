@@ -10,12 +10,10 @@ import {
   MutationError,
   IndividualProfile,
   CooperateProfile,
+  UserType,
 } from "../_types/apiTypes";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Spinner from "./Spinner";
-
-type UserType = "individual" | "cooperate";
-type CustomerStatus = "accepted" | "rejected";
 
 const ClientDetailsForm: React.FC = () => {
   const { data: session } = useSession();
@@ -55,7 +53,8 @@ const ClientDetailsForm: React.FC = () => {
       }
       await updateCustomer({
         user_id: Number(userId),
-        status: "approved",
+        status: "approved", // Added status field
+        activationStatus: "approved",
         user_type: userType,
       });
     },
@@ -79,7 +78,8 @@ const ClientDetailsForm: React.FC = () => {
       }
       await updateCustomer({
         user_id: Number(userId),
-        status: "rejected",
+        status: "rejected", // Added status field
+        activationStatus: "rejected",
         user_type: userType,
       });
     },
