@@ -22,7 +22,6 @@ const ClientInfo: React.FC = () => {
     return (
       <>
         <Spinner />
-        <div className="w-[360px] mr-4 border-r p-4">Loading...</div>
       </>
     );
   }
@@ -60,7 +59,7 @@ const ClientInfo: React.FC = () => {
   const isCooperateProfile = (
     profile: CooperateProfile | IndividualProfile
   ): profile is CooperateProfile => {
-    return 'businessName' in profile;
+    return "businessName" in profile;
   };
 
   return (
@@ -95,7 +94,8 @@ const ClientInfo: React.FC = () => {
             : profile.nextOfKin?.email || "N/A"}
         </p>
         <p className="text-gray-600 text-sm mt-1">
-          Phone: {isCooperateProfile(profile) ? profile.phone : profile.phoneNumber}
+          Phone:{" "}
+          {isCooperateProfile(profile) ? profile.phone : profile.phoneNumber}
         </p>
       </div>
 
@@ -119,7 +119,7 @@ const ClientInfo: React.FC = () => {
       </div>
 
       <hr className="my-6" />
-      
+
       <div className="mb-6">
         <h3 className="text-sm text-black font-medium mb-2">Address</h3>
         <p className="text-sm text-gray-600">
@@ -130,65 +130,72 @@ const ClientInfo: React.FC = () => {
       </div>
 
       {/* Documents section */}
-      {isCooperateProfile(profile) ? (
-        profile.cooperateDocuments && profile.cooperateDocuments.length > 0 && (
-          <div className="mb-6">
-            <h3 className="text-sm text-black font-medium mb-2">Company Documents</h3>
-            <div className="space-y-3">
-              {profile.cooperateDocuments.map((doc) => (
-                <div
-                  key={doc.id}
-                  className="flex items-center justify-between rounded-md w-full bg-gray-100 h-10"
-                >
-                  <div className="flex items-center gap-2">
-                    <div className="w-6 h-6 bg-gray-100 rounded flex items-center justify-center">
-                      <File className="w-4 h-4 text-gray-500" />
+      {isCooperateProfile(profile)
+        ? profile.cooperateDocuments &&
+          profile.cooperateDocuments.length > 0 && (
+            <div className="mb-6">
+              <h3 className="text-sm text-black font-medium mb-2">
+                Company Documents
+              </h3>
+              <div className="space-y-3">
+                {profile.cooperateDocuments.map((doc) => (
+                  <div
+                    key={doc.id}
+                    className="flex items-center justify-between rounded-md w-full bg-gray-100 h-10"
+                  >
+                    <div className="flex items-center gap-2">
+                      <div className="w-6 h-6 bg-gray-100 rounded flex items-center justify-center">
+                        <File className="w-4 h-4 text-gray-500" />
+                      </div>
+                      <span className="text-sm text-gray-500">
+                        {doc.typeOfId
+                          .replace(/_/g, " ")
+                          .replace(/\b\w/g, (c) => c.toUpperCase())}
+                      </span>
                     </div>
-                    <span className="text-sm text-gray-500">
-                      {doc.typeOfId.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase())}
-                    </span>
+                    <Ellipsis
+                      className="w-4 h-4 mr-3 text-black cursor-pointer"
+                      onClick={() => handleDocumentClick(doc)}
+                    />
                   </div>
-                  <Ellipsis
-                    className="w-4 h-4 mr-3 text-black cursor-pointer"
-                    onClick={() => handleDocumentClick(doc)}
-                  />
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
-          </div>
-        )
-      ) : (
-        profile.userDocument &&
-        profile.userDocument.length > 0 && (
-          <div className="mb-6">
-            <h3 className="text-sm text-black font-medium mb-2">Documents</h3>
-            <div className="space-y-3">
-              {profile.userDocument.map((doc: any) => (
-                <div
-                  key={doc.id}
-                  className="flex items-center justify-between rounded-md w-full bg-gray-100 h-10"
-                >
-                  <div className="flex items-center gap-2">
-                    <div className="w-6 h-6 bg-gray-100 rounded flex items-center justify-center">
-                      <File className="w-4 h-4 text-gray-500" />
+          )
+        : profile.userDocument &&
+          profile.userDocument.length > 0 && (
+            <div className="mb-6">
+              <h3 className="text-sm text-black font-medium mb-2">Documents</h3>
+              <div className="space-y-3">
+                {profile.userDocument.map((doc: any) => (
+                  <div
+                    key={doc.id}
+                    className="flex items-center justify-between rounded-md w-full bg-gray-100 h-10"
+                  >
+                    <div className="flex items-center gap-2">
+                      <div className="w-6 h-6 bg-gray-100 rounded flex items-center justify-center">
+                        <File className="w-4 h-4 text-gray-500" />
+                      </div>
+                      <span className="text-sm text-gray-500">
+                        {doc.typeOfId
+                          .replace(/_/g, " ")
+                          .replace(/\b\w/g, (c: any) => c.toUpperCase())}
+                      </span>
                     </div>
-                    <span className="text-sm text-gray-500">
-                      {doc.typeOfId.replace(/_/g, " ").replace(/\b\w/g, (c: any) => c.toUpperCase())}
-                    </span>
+                    <Ellipsis
+                      className="w-4 h-4 mr-3 text-black cursor-pointer"
+                      onClick={() => handleDocumentClick(doc)}
+                    />
                   </div>
-                  <Ellipsis
-                    className="w-4 h-4 mr-3 text-black cursor-pointer"
-                    onClick={() => handleDocumentClick(doc)}
-                  />
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
-          </div>
-        )
-      )}
+          )}
       {isCooperateProfile(profile) && profile.cooperateRepresentative && (
         <div>
-          <h3 className="text-sm text-black font-medium mb-2">Company Representative</h3>
+          <h3 className="text-sm text-black font-medium mb-2">
+            Company Representative
+          </h3>
           <p className="text-sm text-gray-600">
             {profile.cooperateRepresentative.fullName}
           </p>
@@ -207,7 +214,7 @@ const ClientInfo: React.FC = () => {
           </p>
         </div>
       )}
-      
+
       {selectedDocument && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-slate-50 p-8 rounded-lg w-1/2 max-w-lg shadow-lg">
@@ -218,7 +225,9 @@ const ClientInfo: React.FC = () => {
               <p className="text-lg font-medium text-gray-800">
                 <strong>Document Type:</strong>{" "}
                 <span className="text-gray-600">
-                  {selectedDocument.typeOfId.replace(/_/g, " ").replace(/\b\w/g, (c: any) => c.toUpperCase())}
+                  {selectedDocument.typeOfId
+                    .replace(/_/g, " ")
+                    .replace(/\b\w/g, (c: any) => c.toUpperCase())}
                 </span>
               </p>
               <p className="text-lg font-medium text-gray-800">
