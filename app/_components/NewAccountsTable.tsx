@@ -52,7 +52,6 @@ const NewAccountsTable = () => {
     return (
       <>
         <Spinner />
-        <div>Loading...</div>
       </>
     );
   }
