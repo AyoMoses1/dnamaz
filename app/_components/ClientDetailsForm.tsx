@@ -3,7 +3,7 @@
 import { useParams } from "next/navigation";
 import { useSession } from "next-auth/react";
 import React from "react";
-import { BadgeCheck } from "lucide-react";
+import { BadgeCheck, XCircle } from "lucide-react";
 import { updateCustomer } from "../_lib/Api/endpoints/bvnValidation";
 import { useClientData } from "../_lib/Api/endpoints/fetchClientDetail";
 import {
@@ -53,7 +53,7 @@ const ClientDetailsForm: React.FC = () => {
       }
       await updateCustomer({
         user_id: Number(userId),
-        status: "approved", // Added status field
+        status: "approved",
         activationStatus: "approved",
         user_type: userType,
       });
@@ -78,7 +78,7 @@ const ClientDetailsForm: React.FC = () => {
       }
       await updateCustomer({
         user_id: Number(userId),
-        status: "rejected", // Added status field
+        status: "rejected",
         activationStatus: "rejected",
         user_type: userType,
       });
@@ -110,6 +110,9 @@ const ClientDetailsForm: React.FC = () => {
 
   const profile = clientData?.data?.profile;
   const isIndividual = userType === "individual";
+  const isVerified = isIndividual
+    ? (profile as IndividualProfile).bvnVerified
+    : true; // Assuming corporate profiles are always verified, adjust if needed
 
   return (
     <div className="mt-4 border rounded-lg shadow-sm">
@@ -119,7 +122,11 @@ const ClientDetailsForm: React.FC = () => {
           <div className="text-lg text-black font-semibold">
             {isIndividual ? "BVN Validated" : "RC Validated"}
           </div>
-          <BadgeCheck className="w-5 h-5 text-green-600" />
+          {isVerified ? (
+            <BadgeCheck className="w-5 h-5 text-green-600" />
+          ) : (
+            <XCircle className="w-5 h-5 text-red-600" />
+          )}
         </div>
         <div className="flex gap-3">
           <button
@@ -178,11 +185,7 @@ const ClientDetailsForm: React.FC = () => {
                 <label className="block text-sm text-gray-500">B.V.N</label>
                 <input
                   type="text"
-                  value={
-                    (profile as IndividualProfile).bvnVerified
-                      ? "Verified"
-                      : "Not Verified"
-                  }
+                  value={isVerified ? "Verified" : "Not Verified"}
                   readOnly
                   className="w-full p-2 mt-1 border rounded-md bg-gray-50 text-gray-700"
                 />
