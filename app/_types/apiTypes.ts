@@ -232,16 +232,19 @@ export interface ApiResponse {
 
 export type RoleType = "ADMIN" | "STAFF" | "USER";
 
+export type ActivationStatus = "approved" | "rejected";
 export interface CustomerUpdateRequest {
   user_id: number;
-  status: "approved" | "rejected";
+  status: ActivationStatus; // Added status field
+  activationStatus: ActivationStatus;
   user_type: "individual" | "cooperate";
 }
-
 export interface MutationError {
   error: string;
   message: string;
 }
+
+export type UserType = "individual" | "cooperate";
 
 
 export interface BaseCustomer {
