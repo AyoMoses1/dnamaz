@@ -8,8 +8,9 @@ export const updateCustomer = async (
 ): Promise<void> => {
   try {
     const apiPayload = {
-      userId: updateData.user_id,
-      status: updateData.status.toUpperCase(),
+      user_id: updateData.user_id,
+      status: updateData.status,
+      activationStatus: updateData.activationStatus,
       user_type: updateData.user_type
     };
     
@@ -18,4 +19,4 @@ export const updateCustomer = async (
     handleAxiosError(error);
     throw error;
   }
-};
+}
