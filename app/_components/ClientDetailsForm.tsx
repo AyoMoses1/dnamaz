@@ -55,7 +55,7 @@ const ClientDetailsForm: React.FC = () => {
       }
       await updateCustomer({
         user_id: Number(userId),
-        status: "accepted",
+        status: "approved",
         user_type: userType,
       });
     },
