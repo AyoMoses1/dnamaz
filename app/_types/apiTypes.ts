@@ -235,7 +235,7 @@ export type RoleType = "ADMIN" | "STAFF" | "USER";
 export type ActivationStatus = "approved" | "rejected";
 export interface CustomerUpdateRequest {
   user_id: number;
-  status: ActivationStatus; // Added status field
+  status: ActivationStatus; 
   activationStatus: ActivationStatus;
   user_type: "individual" | "cooperate";
 }
