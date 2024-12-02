@@ -13,19 +13,7 @@ import {
 } from "../_types/apiTypes";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Spinner from "./Spinner";
-
-// Utility function to format date
-const formatDate = (dateString: string) => {
-  if (!dateString) return "";
-  const date = new Date(dateString);
-  return date
-    .toLocaleDateString("en-GB", {
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric",
-    })
-    .replace(/\//g, "-");
-};
+import { formatDate } from "../utils/formatDate";
 
 const ClientDetailsForm: React.FC = () => {
   const { data: session } = useSession();
