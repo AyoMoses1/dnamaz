@@ -1,4 +1,3 @@
-import { guestGet } from "../axiosGuest";
 import { ClientResponse } from "@/app/_types/apiTypes";
 import { handleAxiosError } from "@/app/utils/errorHandler";
 import { useQuery } from "@tanstack/react-query";
