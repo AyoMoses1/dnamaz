@@ -18,7 +18,7 @@ export default function Page() {
 
     <div className="container mx-auto py-8">
       <OutstandingBalance
-        totalFundedProjects={713}
+        totalProjects={713}
         outstandingBalance={9500000}
         dueAmount={500000}
         dueClients={21}
