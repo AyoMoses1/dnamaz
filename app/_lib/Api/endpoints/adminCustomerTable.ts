@@ -2,6 +2,7 @@ import { ADMIN_CUSTOMER_ENDPOINT } from "..";
 import { CustomerResponse } from "@/app/_types/apiTypes";
 import { handleAxiosError } from "@/app/utils/errorHandler"; 
 import { guestGet } from "../axiosGuest";
+import { authUserGet } from "../axiosAuthUser";
 
 interface fetchCustomersParams {
     user_type: string;  
@@ -14,7 +15,7 @@ export const fetchCustomers = async (
   params: fetchCustomersParams
 ): Promise<CustomerResponse> => {
   try {
-    const response = await guestGet(ADMIN_CUSTOMER_ENDPOINT, {
+    const response = await authUserGet(ADMIN_CUSTOMER_ENDPOINT, {
       
         user_type: params.user_type.toLowerCase(),  
         page: params.page || 1,
