@@ -1,16 +1,20 @@
-import { guestPost } from '../axiosGuest';
 import { AdminLoginRequest, AdminLoginResponse } from '@/app/_types/apiTypes';
 import { handleAxiosError } from '@/app/utils/errorHandler';
-import { ADMIN_LOGIN_ENDPOINT } from '..';
+import { authUserPost } from '../axiosAuthUser';
+
+export const ADMIN_LOGIN_ENDPOINT = `${process.env.NEXT_PUBLIC_API_URL}/api/v1/admin/login`;
 
 export const adminLogin = async (
   loginData: AdminLoginRequest
 ): Promise<AdminLoginResponse | undefined> => {
   try {
-    const response = await guestPost(ADMIN_LOGIN_ENDPOINT, loginData);
-    return response;
+    const response = await authUserPost(
+      ADMIN_LOGIN_ENDPOINT,
+      loginData
+    );
+    return response.data as AdminLoginResponse;
   } catch (error: any) {
-    handleAxiosError(error); 
-    throw error; 
+    handleAxiosError(error);
+    throw error;
   }
 };
