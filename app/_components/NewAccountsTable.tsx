@@ -3,33 +3,13 @@ import { useRouter } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { PenSquare } from "lucide-react";
 import { newCustomerRequest } from "../_lib/Api/endpoints/newCustomers";
-import { NewRequest } from "../_types/apiTypes";
+// import { NewRequest } from "../_types/apiTypes";
 import { useParams } from "next/navigation";
 import { useClientData } from "../_lib/Api/endpoints/fetchClientDetail";
 import Spinner from "./Spinner";
 import { useState } from "react";
 import { useSession } from "next-auth/react";
-
-interface BaseCustomer {
-  userId: number;
-  email: string;
-  name: string;
-  userType: "individual" | "cooperate";
-  createdAt: string;
-  activationStatus: string;
-}
-
-interface CorporateCustomer extends BaseCustomer {
-  userType: "cooperate";
-  natureOfBusiness: string;
-  primaryBusinessAddress: string;
-}
-
-interface IndividualCustomer extends BaseCustomer {
-  userType: "individual";
-  occupation: string;
-  address: string;
-}
+import { CorporateCustomer, IndividualCustomer } from "../_types/apiTypes";
 
 type Customer = CorporateCustomer | IndividualCustomer;
 
@@ -52,7 +32,7 @@ const NewAccountsTable = () => {
     isLoading: accountsLoading,
     isError: accountsError,
     error: accountsErrorData,
-    refetch: refetchAccounts,
+    // refetch: refetchAccounts,
   } = useQuery<ApiResponse>({
     queryKey: ["newAccountRequests"],
     queryFn: newCustomerRequest,
@@ -65,7 +45,7 @@ const NewAccountsTable = () => {
     data: clientData,
     isLoading: clientLoading,
     isError: clientError,
-    refetch: refetchClient,
+    // refetch: refetchClient,
   } = useClientData(userId);
 
   if (accountsLoading || clientLoading) {
