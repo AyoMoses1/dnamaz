@@ -17,6 +17,7 @@ const ClientInfo: React.FC = () => {
   } = useClientData(userId as string);
 
   const [selectedDocument, setSelectedDocument] = useState<any>(null);
+  const [imagePreviewMode, setImagePreviewMode] = useState(false);
 
   if (isLoading) {
     return (
@@ -49,13 +50,14 @@ const ClientInfo: React.FC = () => {
 
   const handleDocumentClick = (doc: any) => {
     setSelectedDocument(doc);
+    setImagePreviewMode(false);
   };
 
   const closeModal = () => {
     setSelectedDocument(null);
+    setImagePreviewMode(false);
   };
 
-  // Type guard to check if profile is corporate
   const isCooperateProfile = (
     profile: CooperateProfile | IndividualProfile
   ): profile is CooperateProfile => {
@@ -204,8 +206,6 @@ const ClientInfo: React.FC = () => {
           </p>
         </div>
       )}
-
-      {/* Next of Kin section (only for individual) */}
       {!isCooperateProfile(profile) && profile.nextOfKin && (
         <div>
           <h3 className="text-sm text-black font-medium mb-2">Next of Kin</h3>
