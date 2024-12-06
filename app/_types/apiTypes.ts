@@ -268,5 +268,13 @@ export interface IndividualCustomer extends BaseCustomer {
   address: string;
 }
 
+export interface BalanceData {
+  totalBalance: string;
+  balanceChangePercent: number;
+  currentMonth: string;
+  previousMonth: string;
+}
+
+
 // type Customer = CorporateCustomer | IndividualCustomer;
 

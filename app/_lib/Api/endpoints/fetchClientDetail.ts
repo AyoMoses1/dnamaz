@@ -5,7 +5,8 @@ import { authUserGet } from "../axiosAuthUser";
 
 export const fetchClientData = async (userId: string) => {
     try {
-        const data  = await authUserGet<ClientResponse>(`/api/v1/admin/customer/${userId}`);
+        const data  = await authUserGet<ClientResponse>(`/api/v1/admin/customer/users/${userId}`);
+        // console.log("Fetched client data:", data);
         return data;
         console.log(data);
     } catch (error) {
