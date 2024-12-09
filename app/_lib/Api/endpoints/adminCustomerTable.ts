@@ -1,7 +1,6 @@
 import { ADMIN_CUSTOMER_ENDPOINT } from ".."; 
 import { CustomerResponse } from "@/app/_types/apiTypes";
 import { handleAxiosError } from "@/app/utils/errorHandler"; 
-import { guestGet } from "../axiosGuest";
 import { authUserGet } from "../axiosAuthUser";
 
 interface fetchCustomersParams {
