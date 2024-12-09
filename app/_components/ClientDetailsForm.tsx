@@ -1,5 +1,5 @@
 "use client";
-import { useParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 import { useSession } from "next-auth/react";
 import React from "react";
 import { BadgeCheck, XCircle, CheckCircle2, XCircleIcon } from "lucide-react";
@@ -18,10 +18,11 @@ import { formatDate } from "../utils/formatDate";
 const ClientDetailsForm: React.FC = () => {
   const { data: session } = useSession();
   const params = useParams();
+  const searchParams = useSearchParams();
   const userId = params?.userId as string;
+  const fromCustomersTable = searchParams.has("fromTable");
   const queryClient = useQueryClient();
 
-  // Add state to track the current status
   const [status, setStatus] = React.useState<
     "pending" | "approved" | "rejected"
   >("pending");
@@ -32,12 +33,18 @@ const ClientDetailsForm: React.FC = () => {
     isError: clientError,
   } = useClientData(userId);
 
-  // Set initial status when client data loads
   React.useEffect(() => {
-    if (clientData?.data?.status) {
+    const storedStatus = localStorage.getItem(`clientStatus_${userId}`);
+    if (storedStatus) {
+      setStatus(storedStatus as "pending" | "approved" | "rejected");
+    } else if (clientData?.data?.status) {
       setStatus(clientData.data.status as "pending" | "approved" | "rejected");
     }
-  }, [clientData]);
+  }, [clientData, userId]);
+
+  React.useEffect(() => {
+    localStorage.setItem(`clientStatus_${userId}`, status);
+  }, [userId, status]);
 
   const userType = React.useMemo<UserType | null>(() => {
     if (!clientData?.data) return null;
@@ -150,86 +157,130 @@ const ClientDetailsForm: React.FC = () => {
 
   return (
     <div className="mt-4 border rounded-lg shadow-sm">
-      {/* Header with validation status and buttons */}
-      <div className="rounded-t-lg p-4 flex justify-between items-center">
-        <div className="flex items-center gap-4">
-          <div className="flex items-center gap-2">
-            <div className="text-lg text-black font-semibold">
-              {isIndividual ? "BVN Validated" : "RC Validated"}
+      {/* Only show BVN validation header if not coming from customers table */}
+      {!fromCustomersTable && (
+        <div className="rounded-t-lg p-4 flex justify-between items-center">
+          <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2">
+              <div className="text-lg text-black font-semibold">
+                {isIndividual ? "BVN Validated" : "RC Validated"}
+              </div>
+              {isVerified ? (
+                <BadgeCheck className="w-5 h-5 text-green-600" />
+              ) : (
+                <XCircle className="w-5 h-5 text-red-600" />
+              )}
             </div>
-            {isVerified ? (
-              <BadgeCheck className="w-5 h-5 text-green-600" />
-            ) : (
-              <XCircle className="w-5 h-5 text-red-600" />
-            )}
+            {renderStatusBadge()}
           </div>
-          {renderStatusBadge()}
+          {status === "pending" && (
+            <div className="flex gap-3">
+              <button
+                onClick={() => rejectCustomer()}
+                disabled={isRejecting || status !== "pending"}
+                className="px-4 py-1.5 text-sm text-red-600 bg-red-100 rounded-md hover:bg-red-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {isRejecting ? "Rejecting..." : "Reject"}
+              </button>
+              <button
+                onClick={() => acceptCustomer()}
+                disabled={isAccepting || status !== "pending" || !isVerified}
+                className="px-4 py-1.5 text-sm text-green-600 bg-green-100 rounded-md hover:bg-green-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {isAccepting ? "Accepting..." : "Accept"}
+              </button>
+            </div>
+          )}
         </div>
-        {status === "pending" && (
-          <div className="flex gap-3">
-            <button
-              onClick={() => rejectCustomer()}
-              disabled={isRejecting || status !== "pending"}
-              className="px-4 py-1.5 text-sm text-red-600 bg-red-100 rounded-md hover:bg-red-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {isRejecting ? "Rejecting..." : "Reject"}
-            </button>
-            <button
-              onClick={() => acceptCustomer()}
-              disabled={isAccepting || status !== "pending" || !isVerified}
-              className="px-4 py-1.5 text-sm text-green-600 bg-green-100 rounded-md hover:bg-green-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {isAccepting ? "Accepting..." : "Accept"}
-            </button>
-          </div>
-        )}
-      </div>
+      )}
 
       {/* Profile fields */}
       {profile && (
         <div className="px-4 py-3 flex items-center justify-between gap-4">
           {isIndividual ? (
             // Individual profile fields
-            <>
-              <div>
-                <label className="block text-sm text-gray-500">
-                  First Name
-                </label>
-                <input
-                  type="text"
-                  value={(profile as IndividualProfile).firstName}
-                  readOnly
-                  className="w-full p-2 mt-1 border rounded-md bg-gray-50 text-gray-700"
-                />
-              </div>
-              <div>
-                <label className="block text-sm text-gray-500">Last Name</label>
-                <input
-                  type="text"
-                  value={(profile as IndividualProfile).lastName}
-                  readOnly
-                  className="w-full p-2 mt-1 border rounded-md bg-gray-50 text-gray-700"
-                />
-              </div>
-              <div>
-                <label className="block text-sm text-gray-500">D.O.B</label>
-                <input
-                  type="text"
-                  value={formatDate((profile as IndividualProfile).dateOfBirth)}
-                  readOnly
-                  className="w-full p-2 mt-1 border rounded-md bg-gray-50 text-gray-700"
-                />
-              </div>
-              <div>
-                <label className="block text-sm text-gray-500">B.V.N</label>
-                <input
-                  type="text"
-                  value={isVerified ? "Verified" : "Not Verified"}
-                  readOnly
-                  className="w-full p-2 mt-1 border rounded-md bg-gray-50 text-gray-700"
-                />
-              </div>
-            </>
+            status === "pending" && !fromCustomersTable ? (
+              <>
+                <div>
+                  <label className="block text-sm text-gray-500">
+                    First Name
+                  </label>
+                  <input
+                    type="text"
+                    value={(profile as IndividualProfile).firstName}
+                    readOnly
+                    className="w-full p-2 mt-1 border rounded-md bg-gray-50 text-gray-700"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm text-gray-500">
+                    Last Name
+                  </label>
+                  <input
+                    type="text"
+                    value={(profile as IndividualProfile).lastName}
+                    readOnly
+                    className="w-full p-2 mt-1 border rounded-md bg-gray-50 text-gray-700"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm text-gray-500">D.O.B</label>
+                  <input
+                    type="text"
+                    value={formatDate(
+                      (profile as IndividualProfile).dateOfBirth
+                    )}
+                    readOnly
+                    className="w-full p-2 mt-1 border rounded-md bg-gray-50 text-gray-700"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm text-gray-500">B.V.N</label>
+                  <input
+                    type="text"
+                    value={isVerified ? "Verified" : "Not Verified"}
+                    readOnly
+                    className="w-full p-2 mt-1 border rounded-md bg-gray-50 text-gray-700"
+                  />
+                </div>
+              </>
+            ) : (
+              <>
+                <div>
+                  <label className="block text-sm text-gray-500">
+                    First Name
+                  </label>
+                  <input
+                    type="text"
+                    value={(profile as IndividualProfile).firstName}
+                    readOnly
+                    className="w-full p-2 mt-1 border rounded-md bg-gray-50 text-gray-700"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm text-gray-500">
+                    Last Name
+                  </label>
+                  <input
+                    type="text"
+                    value={(profile as IndividualProfile).lastName}
+                    readOnly
+                    className="w-full p-2 mt-1 border rounded-md bg-gray-50 text-gray-700"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm text-gray-500">D.O.B</label>
+                  <input
+                    type="text"
+                    value={formatDate(
+                      (profile as IndividualProfile).dateOfBirth
+                    )}
+                    readOnly
+                    className="w-full p-2 mt-1 border rounded-md bg-gray-50 text-gray-700"
+                  />
+                </div>
+              </>
+            )
           ) : (
             // Corporate profile fields
             <>

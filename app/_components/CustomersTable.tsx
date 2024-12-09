@@ -209,7 +209,9 @@ const CustomersTable: FC = () => {
                       <button
                         className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
                         onClick={() =>
-                          router.push(`/customers/${customer.userId}`)
+                          router.push(
+                            `/customers/${customer.userId}?fromTable=true`
+                          )
                         }
                       >
                         <FaEdit className="w-4 h-4 text-green-900" />
