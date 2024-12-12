@@ -276,5 +276,11 @@ export interface BalanceData {
 }
 
 
-// type Customer = CorporateCustomer | IndividualCustomer;
-
+export interface UserStatistics {
+  data: {
+    totalUsers: string; 
+    userGrowthPercent: number; 
+    currentMonth: string;
+    previousMonth: string; 
+  };
+};
