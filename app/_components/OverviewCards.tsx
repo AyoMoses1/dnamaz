@@ -9,8 +9,7 @@ import {
   SquareActivity,
 } from "lucide-react";
 import { useWalletStats } from "../_lib/Api/endpoints/walletstats";
-import { useSession } from "next-auth/react";
-
+import { useTotalUsers } from "../_lib/Api/endpoints/totalUsers";
 interface CardProps {
   title: string;
   value: string;
@@ -18,6 +17,8 @@ interface CardProps {
   isPositive: boolean;
   variant: "green" | "mint" | "white";
   icon: "users" | "wallet" | "investment" | "projects";
+  isLoading?: boolean;
+  previousMonth: string;
 }
 
 const Card: FC<CardProps> = ({
@@ -27,6 +28,8 @@ const Card: FC<CardProps> = ({
   isPositive,
   variant,
   icon,
+  isLoading,
+  previousMonth,
 }) => {
   const getVariantStyles = () => {
     switch (variant) {
@@ -92,36 +95,45 @@ const Card: FC<CardProps> = ({
       </div>
 
       <div className="space-y-2">
-        <h2 className={`${styles.text} text-3xl font-bold`}>{value}</h2>
+        <h2 className={`${styles.text} text-3xl font-bold`}>
+          {isLoading ? "Loading..." : value}
+        </h2>
 
-        <div className="flex items-center gap-2">
-          <div
-            className={`border ${
-              isPositive ? "border-green-500" : "border-red-500"
-            } rounded p-0.5`}
-          >
-            {isPositive ? (
-              <TrendingUp className="h-3 w-3 text-green-500" />
-            ) : (
-              <TrendingDown className="h-3 w-3 text-red-500" />
-            )}
+        {!isLoading && (
+          <div className="flex items-center gap-1">
+            <div
+              className={`inline-flex items-center justify-center border ${
+                isPositive ? "border-green-500" : "border-red-500"
+              } rounded p-0.5`}
+            >
+              {isPositive ? (
+                <TrendingUp className="h-3 w-3 text-green-500" />
+              ) : (
+                <TrendingDown className="h-3 w-3 text-red-500" />
+              )}
+            </div>
+            <span className="text-sm whitespace-nowrap">
+              <span className={isPositive ? "text-green-500" : "text-red-500"}>
+                {isPositive ? `+${change}%` : `-${change}%`}
+              </span>
+              <span className={`${styles.changeText} ml-1 font-semibold`}>
+                from {previousMonth}
+              </span>
+            </span>
           </div>
-          <span className="text-sm">
-            <span className={isPositive ? "text-green-500" : "text-red-500"}>
-              {isPositive ? `+${change}%` : `-${change}%`}
-            </span>
-            <span className={styles.changeText}>
-              {isPositive ? " more from last month" : " less from last month"}
-            </span>
-          </span>
-        </div>
+        )}
       </div>
     </div>
   );
 };
 
 const OverviewCards: FC = () => {
-  const { data: walletData, isLoading } = useWalletStats();
+  const { data: walletData, isLoading: isWalletLoading } = useWalletStats();
+  const {
+    data: usersData,
+    isLoading: isUsersLoading,
+    isError: isUsersError,
+  } = useTotalUsers();
 
   const formatBalance = (balance: string) => {
     if (!balance) return "₦0.00";
@@ -141,18 +153,35 @@ const OverviewCards: FC = () => {
   const balanceChange = walletData?.balanceChangePercent ?? 0;
   const isPositiveChange = balanceChange >= 0;
   const totalBalance = walletData?.totalBalance ?? "0.00";
-  const formattedValue = isLoading ? "Loading..." : formatBalance(totalBalance);
+  const formattedValue = isWalletLoading
+    ? "Loading..."
+    : formatBalance(totalBalance);
   const formattedChange = Math.abs(balanceChange).toFixed(2);
+
+  // Handle user statistics
+  const userStats = usersData?.data;
+  const totalUsersValue = isUsersError
+    ? "Error"
+    : isUsersLoading
+    ? "Loading..."
+    : userStats?.totalUsers ?? "0";
+  const userGrowthPercent = Math.abs(userStats?.userGrowthPercent ?? 0).toFixed(
+    2
+  );
+  const isPositiveGrowth = (userStats?.userGrowthPercent ?? 0) >= 0;
+  const previousMonth = userStats?.previousMonth ?? "last month";
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
       <Card
         title="Active Customers"
-        value="30,000"
-        change="15"
-        isPositive={true}
+        value={totalUsersValue}
+        change={userGrowthPercent}
+        isPositive={isPositiveGrowth}
         variant="green"
         icon="users"
+        isLoading={isUsersLoading}
+        previousMonth={previousMonth}
       />
       <Card
         title="Wallets Total"
@@ -161,6 +190,8 @@ const OverviewCards: FC = () => {
         isPositive={isPositiveChange}
         variant="mint"
         icon="wallet"
+        isLoading={isWalletLoading}
+        previousMonth={previousMonth}
       />
       <Card
         title="Amount Invested"
@@ -169,6 +200,7 @@ const OverviewCards: FC = () => {
         isPositive={true}
         variant="white"
         icon="investment"
+        previousMonth={previousMonth}
       />
       <Card
         title="Funded Projects"
@@ -177,6 +209,7 @@ const OverviewCards: FC = () => {
         isPositive={false}
         variant="white"
         icon="projects"
+        previousMonth={previousMonth}
       />
     </div>
   );

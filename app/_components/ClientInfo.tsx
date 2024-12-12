@@ -17,14 +17,10 @@ const ClientInfo: React.FC = () => {
   } = useClientData(userId as string);
 
   const [selectedDocument, setSelectedDocument] = useState<any>(null);
-  const [imagePreviewMode, setImagePreviewMode] = useState(false);
+  const [showDocumentView, setShowDocumentView] = useState(false);
 
   if (isLoading) {
-    return (
-      <>
-        <Spinner />
-      </>
-    );
+    return <Spinner />;
   }
 
   if (error) {
@@ -50,12 +46,16 @@ const ClientInfo: React.FC = () => {
 
   const handleDocumentClick = (doc: any) => {
     setSelectedDocument(doc);
-    setImagePreviewMode(false);
+    setShowDocumentView(false);
   };
 
   const closeModal = () => {
     setSelectedDocument(null);
-    setImagePreviewMode(false);
+    setShowDocumentView(false);
+  };
+
+  const toggleDocumentView = () => {
+    setShowDocumentView(!showDocumentView);
   };
 
   const isCooperateProfile = (
@@ -66,6 +66,7 @@ const ClientInfo: React.FC = () => {
 
   return (
     <div className="w-[360px] mr-4 border-r p-4">
+      {/* Previous code remains the same until the modal section */}
       <div className="bg-[#d9edd9] rounded-lg p-4 mb-6 relative w-full h-28">
         <div className="flex items-start justify-between">
           <div className="w-16 h-16 bg-gray-300 rounded-full overflow-hidden flex items-center justify-center absolute top-16 left-4 border-2 border-white">
@@ -193,6 +194,7 @@ const ClientInfo: React.FC = () => {
               </div>
             </div>
           )}
+
       {isCooperateProfile(profile) && profile.cooperateRepresentative && (
         <div>
           <h3 className="text-sm text-black font-medium mb-2">
@@ -215,64 +217,98 @@ const ClientInfo: React.FC = () => {
         </div>
       )}
 
+      {/* Updated Modal with Document Viewer */}
       {selectedDocument && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-slate-50 p-8 rounded-lg w-1/2 max-w-lg shadow-lg">
-            <h2 className="text-2xl font-semibold text-black mb-4">
-              Document Details
-            </h2>
-            <div className="space-y-2">
-              <p className="text-lg font-medium text-gray-800">
-                <strong>Document Type:</strong>{" "}
-                <span className="text-gray-600">
-                  {selectedDocument.typeOfId
-                    .replace(/_/g, " ")
-                    .replace(/\b\w/g, (c: any) => c.toUpperCase())}
-                </span>
-              </p>
-              <p className="text-lg font-medium text-gray-800">
-                <strong>Document Name:</strong>{" "}
-                <span className="text-gray-600">
-                  {selectedDocument.document}
-                </span>
-              </p>
-              <p className="text-lg font-medium text-gray-800">
-                <strong>Document Type:</strong>{" "}
-                <span className="text-gray-600">
-                  {selectedDocument.documentType}
-                </span>
-              </p>
-              {selectedDocument.idNumber && (
-                <p className="text-lg font-medium text-gray-800">
-                  <strong>ID Number:</strong>{" "}
-                  <span className="text-gray-600">
-                    {selectedDocument.idNumber}
-                  </span>
-                </p>
-              )}
-              {selectedDocument.issueDate && (
-                <p className="text-lg font-medium text-gray-800">
-                  <strong>Issue Date:</strong>{" "}
-                  <span className="text-gray-600">
-                    {new Date(selectedDocument.issueDate).toLocaleDateString()}
-                  </span>
-                </p>
-              )}
-              {selectedDocument.expiryDate && (
-                <p className="text-lg font-medium text-gray-800">
-                  <strong>Expiry Date:</strong>{" "}
-                  <span className="text-gray-600">
-                    {new Date(selectedDocument.expiryDate).toLocaleDateString()}
-                  </span>
-                </p>
-              )}
+          <div className="bg-slate-50 rounded-lg shadow-lg w-11/12 max-w-6xl h-5/6 flex flex-col">
+            <div className="flex justify-between items-center p-6 border-b">
+              <h2 className="text-2xl font-semibold text-black">
+                Document Details
+              </h2>
+              <button
+                className="text-gray-500 hover:text-gray-700"
+                onClick={closeModal}
+              >
+                ×
+              </button>
             </div>
-            <button
-              className="mt-6 px-6 py-3 bg-red-500 text-white rounded-lg hover:bg-red-600 transition duration-200"
-              onClick={closeModal}
-            >
-              Close
-            </button>
+
+            <div className="flex flex-1 min-h-0">
+              {/* Document Details Panel */}
+              <div className="w-1/3 p-6 border-r overflow-y-auto">
+                <div className="space-y-4">
+                  <p className="text-lg font-medium text-gray-800">
+                    <strong>Document Type:</strong>{" "}
+                    <span className="text-gray-600">
+                      {selectedDocument.typeOfId
+                        .replace(/_/g, " ")
+                        .replace(/\b\w/g, (c: any) => c.toUpperCase())}
+                    </span>
+                  </p>
+                  <p className="text-lg font-medium text-gray-800">
+                    <strong>Document Name:</strong>{" "}
+                    <span className="text-gray-600">
+                      {selectedDocument.document}
+                    </span>
+                  </p>
+                  <p className="text-lg font-medium text-gray-800">
+                    <strong>Document Type:</strong>{" "}
+                    <span className="text-gray-600">
+                      {selectedDocument.documentType}
+                    </span>
+                  </p>
+                  {selectedDocument.idNumber && (
+                    <p className="text-lg font-medium text-gray-800">
+                      <strong>ID Number:</strong>{" "}
+                      <span className="text-gray-600">
+                        {selectedDocument.idNumber}
+                      </span>
+                    </p>
+                  )}
+                  {selectedDocument.issueDate && (
+                    <p className="text-lg font-medium text-gray-800">
+                      <strong>Issue Date:</strong>{" "}
+                      <span className="text-gray-600">
+                        {new Date(
+                          selectedDocument.issueDate
+                        ).toLocaleDateString()}
+                      </span>
+                    </p>
+                  )}
+                  {selectedDocument.expiryDate && (
+                    <p className="text-lg font-medium text-gray-800">
+                      <strong>Expiry Date:</strong>{" "}
+                      <span className="text-gray-600">
+                        {new Date(
+                          selectedDocument.expiryDate
+                        ).toLocaleDateString()}
+                      </span>
+                    </p>
+                  )}
+                </div>
+                <button
+                  className="mt-6 px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-200 w-full"
+                  onClick={toggleDocumentView}
+                >
+                  {showDocumentView ? "Hide Document" : "View Document"}
+                </button>
+              </div>
+
+              {/* Document Viewer Panel */}
+              <div className="w-2/3 p-6 overflow-y-auto">
+                {showDocumentView ? (
+                  <iframe
+                    src={selectedDocument.document}
+                    className="w-full h-full border rounded-lg"
+                    title="Document Viewer"
+                  />
+                ) : (
+                  <div className="flex items-center justify-center h-full text-gray-500">
+                    Click "View Document" to display the document
+                  </div>
+                )}
+              </div>
+            </div>
           </div>
         </div>
       )}
